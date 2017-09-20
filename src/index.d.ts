@@ -157,7 +157,7 @@ export interface SegmentTraits {
   employees?: number;
   description?: string;
   email?: string;
-  address?: SegAddress;
+  address?: SegmentAddress;
   website?: string;
   age?: number;
   birthday?: Date;

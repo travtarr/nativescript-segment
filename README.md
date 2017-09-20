@@ -1,21 +1,24 @@
 # Nativescript-Segment
 
-Add your plugin badges here. See [nativescript-urlhandler](https://github.com/hypery2k/nativescript-urlhandler) for example.
+A NativeScript plugin that provides easy access to the native Segment SDKs.
 
-Then describe what's the purpose of your plugin.
-
-In case you develop UI plugin, this is where you can add some screenshots.
-
-## (Optional) Prerequisites / Requirements
-
+Up-to-date with the following native SDKs:
+Version 3.0 of the iOS SDK [Official Repository](https://github.com/segmentio/analytics-ios)
+Version 4.2.6 of the Android SDK [Official Repository](https://github.com/segmentio/analytics-android)
 
 ## Installation
-
-Describe your plugin installation steps. Ideally it would be something like:
 
 ```javascript
 tns plugin add nativescript-segment
 ```
+
+For access to the native SDK type definitions, specify the definitions in your *references.d.ts*
+
+    ```
+    /// <reference path="./node_modules/nativescript-segment/typings/objc!Analytics.d.ts" />
+    /// <reference path="./node_modules/nativescript-segment/typings/android!Analytics.d.ts" />
+    ```
+    *Warning: Depending on your project structure, the paths shown above may be inaccurate.*
 
 ### Android
 
@@ -27,6 +30,7 @@ Requires the *internet* permission if not already enabled in your app.
 ### iOS
 
 In your application's delegate:
+
     ```javascript
     import { Segment } from 'nativescript-segment';
     ...
@@ -43,6 +47,7 @@ In your application's delegate:
 ## Usage 
 
 All interaction with the library should be done via static function calls on the Segment import:
+
     ```javascript
     import { Segment } from 'nativescript-segment';
     ...
@@ -53,6 +58,7 @@ All interaction with the library should be done via static function calls on the
     ```
 
 For more advanced uses, or if it is required to access the base SDK methods, you can access the SDK's shared instance
+
     ```javascript
     // iOS
     Segment.ios.track('some event');
@@ -60,16 +66,30 @@ For more advanced uses, or if it is required to access the base SDK methods, you
     // Android
     Segment.android.track('some event');
     ```
-    Warning: accessing the SDK's methods directly requires conversion to native object and collection types
+    *Warning: accessing the SDK's methods directly potentially requires converting to native object and collection types*
 
 ## API
 
-Describe your plugin methods and properties here. See [nativescript-feedback](https://github.com/EddyVerbruggen/nativescript-feedback) for example.
-    
+### configure
+
+    ```javascript
+    let config: SegmentConfig = {
+      trackLifeCycleEvents: true,
+      recordScreenViews: true
+    };
+    Segment.configure('your segment write key', config);
+    ```
+
 | Property | Default | Description |
 | --- | --- | --- |
-| some property | property default value | property description, default values, etc.. |
-| another property | property default value | property description, default values, etc.. |
+| trackLifeCycleEvents | true | enable or disable auto tracking life-cycle events |
+| recordScreenViews| true | enable or disable auto tracking of screen views |
+| options | | Default integration options, see **SegmentOptions** |
+| proxyUrl | '' | forward all Segment calls through a proxy |
+| setLogging | false | set base *INFO* logging in Android SDK and plugin itself |
+| setDebug | false | Sets full debug logging in Android and iOS |
+| middlewaresAndroid | [] | List of middlewares for Android. Applied in the order based on the array. See [here](https://segment.com/docs/sources/mobile/android/#middlewares) for more info |
+| middlewaresIOS | [] | List of middlewares for iOS. Applied in the order based on the array. See [here](https://segment.com/docs/sources/mobile/ios/#middlewares) for more info |
     
 ## License
 
