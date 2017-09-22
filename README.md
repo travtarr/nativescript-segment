@@ -26,7 +26,7 @@ For access to the native SDK type definitions, specify the definitions in your *
 ### Android
 
 Requires the *internet* permission if not already enabled in your app.
-```XML
+```xml
 <uses-permission android:name="android.permission.INTERNET"/>
 ```
 
@@ -38,7 +38,7 @@ In your application's delegate:
 import { Segment } from 'nativescript-segment';
 
 public applicationDidFinishLaunchingWithOptions(application, launchOptions): boolean {
-    let config = {
+    const config = {
         setDebug: true; // set to show full debug logging by the native APIs
     }
     Segment.configure(key, config);
@@ -75,14 +75,14 @@ Segment.android.track('some event');
 ### configure
 
 ```js
-let config: SegmentConfig = {
+const config: SegmentConfig = {
     trackLifeCycleEvents: true,
     recordScreenViews: true
 };
 Segment.configure('your segment write key', config);
 ```
 
-**SegmentConfig Properties** (all optional)
+**SegmentConfig** Properties (all optional)
 
 | Property | Default | Description |
 | --- | --- | --- |
@@ -95,7 +95,7 @@ Segment.configure('your segment write key', config);
 | middlewaresAndroid | [] | List of middlewares for Android. Applied in the order based on the array. See [here](https://segment.com/docs/sources/mobile/android/#middlewares) for more info |
 | middlewaresIOS | [] | List of middlewares for iOS. Applied in the order based on the array. See [here](https://segment.com/docs/sources/mobile/ios/#middlewares) for more info |
 
-**SegmentOptions Properties**  (all optional)
+**SegmentOptions** Properties (all optional)
 
 | Property | Default | Description |
 | --- | --- | --- |
@@ -103,6 +103,88 @@ Segment.configure('your segment write key', config);
 | excluded | [] | exclude Segment from integrating with the specified services |
 | included | [] | include Segment integration with the specified services (note: this will only take affect if **useAll** is set to *false*) |
     
+
+### identify
+
+Identify the current user.  Additional traits are supported, and custom traits are available.
+
+```js
+const traits: SegmentTraits = {
+    firstName: 'Dave',
+    email: 'dave@domain.com'
+};
+const customTraits: any {
+    favoriteColor: 'blue'
+};
+Segment.identify('userId', traits, customTraits);
+```
+
+**SegmentTraits** Properties (all optional)
+
+Please see [Segment's official spec](https://segment.com/docs/spec/identify/#traits) for all available traits and their descriptions.
+
+
+### track
+
+Track an event. 
+
+```js
+Segment.track('Some event');
+
+const properties = {
+    productName: 'Bread',
+    revenue: 4
+};
+Segment.track('Product Purchased', properties);
+```
+
+Please see [Segment's official spec](https://segment.com/docs/spec/track/#properties) for details on properties to add to *track* calls.
+
+### screen
+
+Manually record a screen view by name and optional category.  Category is a default option for Android, but for iOS it will concatenate *category* and *name* into the same `screen`.
+
+```js
+Segment.screen('signup', 'verify password');
+```
+
+Please see [Segment's official spec](https://segment.com/docs/spec/screen/#properties) for details on *screen* calls.
+
+### group
+
+Associate current user with a group.  A user can belong to multiple groups.
+
+```js
+Segment.group("0e8c78ea9d97a7b8185e8632", {
+  name: "Initech", 
+  industry: "Technology",
+  employees: 329, 
+  plan: "enterprise", 
+  "total billed": 830
+});
+```
+
+Please see [Segment's official spec](https://segment.com/docs/spec/group/#properties) for details on *group* calls.
+
+
+### alias
+
+*alias* is how you associate one identity with another.
+
+```js
+Segment.alias(newId);
+```
+
+Please see [Segment's official spec](https://segment.com/docs/spec/alias) for details on *alias* calls.
+
+### optout
+
+Disables or enables all analytics, remains set throughout app restarts.
+
+```js
+Segment.optOut(true);
+```
+
 ## License
 
 Apache License Version 2.0, January 2004

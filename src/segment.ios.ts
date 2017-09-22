@@ -52,7 +52,7 @@ export class Segment extends Common {
     analytics().trackPropertiesOptions(event, _convertProperties(properties), _convertOptions(options));
   }
 
-  public static screen(category?: string, name?: string, properties?: any, options?: SegmentOptions): void {
+  public static screen(name: string, category?: string,  properties?: any, options?: SegmentOptions): void {
     if (!category && !name) {
       _log(`Both "category" and "name" parameters of the screen method cannot be null`);
       return;

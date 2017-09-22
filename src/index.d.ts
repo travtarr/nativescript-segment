@@ -75,7 +75,7 @@ export declare class Segment extends Common {
    * @param properties 
    * @param options 
    */
-  static screen(category?: string, name?: string, properties?: any, options?: SegmentOptions): void;
+  static screen(name: string, category?: string, properties?: any, options?: SegmentOptions): void;
 
   /**
    * *group* lets you associate an identified user user with a group. A group could be a company, 
